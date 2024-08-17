@@ -14,13 +14,25 @@
 - 新功率板原理图：[交大云盘](https://jbox.sjtu.edu.cn/l/r1TiNZ)
 - 老功率板PCB设计（Altium Designer）：[交大云盘](https://jbox.sjtu.edu.cn/l/D1rCPL)
 - 新功率板PCB设计（嘉立创）：[交大云盘](https://jbox.sjtu.edu.cn/l/51VMpd)
+
+## 功率板原理图解析
+
+### 
   
 ## 功率板对踢球力度的控制
 
 实现对踢球力度的控制在比赛过程中极为重要，通过控制板给与功率板不同的力度信号，并用示波器测量该信号，测试结果如下：
 
 <div align="center">
-    <img src="https://github.com/Gnitnaux/POWBRD/blob/master/%E6%8E%A7%E5%88%B6%E6%9D%BF%E8%B8%A2%E7%90%83%E4%BF%A1%E5%8F%B7%E6%B5%8B%E8%AF%95/control_board_force_40.jpg?raw=true" alt="力度40" width="300">
-    <img src="https://github.com/Gnitnaux/POWBRD/blob/master/%E6%8E%A7%E5%88%B6%E6%9D%BF%E8%B8%A2%E7%90%83%E4%BF%A1%E5%8F%B7%E6%B5%8B%E8%AF%95/control_board_force_80.jpg?raw=true" alt="力度80" width="300">
-    <img src="https://github.com/Gnitnaux/POWBRD/blob/master/%E6%8E%A7%E5%88%B6%E6%9D%BF%E8%B8%A2%E7%90%83%E4%BF%A1%E5%8F%B7%E6%B5%8B%E8%AF%95/control_board_force_100.jpg?raw=true" alt="力度100" width="300">
+    <img src="https://github.com/Gnitnaux/POWBRD/blob/master/%E6%8E%A7%E5%88%B6%E6%9D%BF%E8%B8%A2%E7%90%83%E4%BF%A1%E5%8F%B7%E6%B5%8B%E8%AF%95/control_board_force_40.jpg?raw=true" alt="力度40" width="200">
+    <img src="https://github.com/Gnitnaux/POWBRD/blob/master/%E6%8E%A7%E5%88%B6%E6%9D%BF%E8%B8%A2%E7%90%83%E4%BF%A1%E5%8F%B7%E6%B5%8B%E8%AF%95/control_board_force_80.jpg?raw=true" alt="力度80" width="200">
+    <img src="https://github.com/Gnitnaux/POWBRD/blob/master/%E6%8E%A7%E5%88%B6%E6%9D%BF%E8%B8%A2%E7%90%83%E4%BF%A1%E5%8F%B7%E6%B5%8B%E8%AF%95/control_board_force_100.jpg?raw=true" alt="力度100" width="200">
 </div>
+
+进一步定量测试，有如下结果：
+
+| 踢球力度 | 127    | 100  | 80  | 60  | 40  |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| **脉冲宽度** | $12.6ms$ | $10ms$ | $8ms$ | $6ms$ | $4ms$ |
+
+可见踢球力度是通过踢球信号的脉冲时间来控制的，且踢球力度与信号脉冲时间成正比。
