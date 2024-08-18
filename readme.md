@@ -80,7 +80,7 @@
 
 - 值得注意的是，**Q6也是极易损坏的元件**，在维修功率板时也需十分注意。
 
-- 经测量，功率板在正常升压时OUT引脚的输出频率为 $28.09\ kHz$，占空比为 $9.2\%$
+- 经测量，功率板在正常升压时OUT引脚的输出频率 $28.09\ kHz$，占空比 $9.2\%$
   
 ## 四、功率板对踢球力度的控制
 
@@ -102,7 +102,7 @@
 
 ## 五、电磁铁放电的电路模型
 
-为进一步了解电磁铁放电时的工作状态，特建立以下电路模型来描述电磁铁放电时的响应。其中，电磁铁等效为电感模型，通过阻抗法进行测量，老电磁铁电感值为 $0.0175H$，万用表测量得其电阻为 $2.9\Omega$
+为进一步了解电磁铁放电时的工作状态，特建立以下电路模型来描述电磁铁放电时的响应。其中，电磁铁等效为电感模型。
 
 <div align="center">
     <img src="https://github.com/Gnitnaux/POWBRD/blob/master/%E6%94%BE%E7%94%B5%E7%94%B5%E8%B7%AF%E6%A8%A1%E5%9E%8B.jpg?raw=true" alt="电路模型" width="500">
@@ -119,6 +119,71 @@ $$
     &u_1 = u_2+430\times 10^3\ i_4\\
     &u_1 = 510\times10^3\ i_6\\
     &i_1 = i_2 + i_5 + i_6\\
-    &u_1 = 3.7\ i_5 +
+    &u_1 = R\cdot i_5 + L\cdot \frac{di_5}{dt} + 2.6
 \end{cases}
 $$
+
+以上微分方程组经过数学化简可转化为差分方程形式，进而可以使用MATLAB进行运算，拟合出放电电流随放电时间的关系。为弄清不同匝数电磁铁对应的放电曲线，还需进一步分析：
+
+通过阻抗法进行测量，老电磁铁（500匝）电感值为 $0.0175H$，利用电流传感器测量老电磁铁在老功率板下的放电电流，得其为 $11.7A$。由此设置电路模型中 &L& 参数为 $0.0175H$ 并不断调整电路模型中的R参数，使得电流峰值为 $11.7A$，得到 $R=17.5\Omega$
+
+用 $N$ 来表示电磁铁匝数，根据电阻及电磁铁的物理学模型，有
+
+$$
+R_L\propto N
+$$
+$$
+L\propto N^2
+$$
+
+于是又如下MATLAB代码进行模型计算及数据可视化：
+
+```matlab
+N = [500, 450, 400, 350, 300, 250, 200, 150, 100];  
+colors = lines(length(N)); 
+  
+figure; 
+hold on;
+  
+for j = 1:length(N)
+    u1 = 214; u2 = 2.58;  
+    i2 = 0.00049; i3 = 0.00049; i4 = 0; i5 = 0; i6 = 0.00042;  
+    i1 = i2 + i5 + i6;  
+    t = 0:0.0000005:0.0127; 
+    I = zeros(size(t)); % 初始化I数组  
+    L = 0.0175 * N(j) * N(j) / 250000;  % 以500匝电磁铁的电感为基准，算出不同匝数下的电感
+    R = 0.5 + N(j) * 17 / 500*64/25; %假设电阻丝及走线电阻为0.5欧，电磁铁电阻以500匝电阻17欧算
+    for i = 1:length(t)  
+        dt = 0.0000005;
+  
+        du1 = i1 * dt / (-4.40044 / 1000);
+        di5 = (u1 - R * i5 - 2.6) * dt / L;
+        du2 = i4 * 100000000 * dt;
+        di3 = du2 / 5100;
+        di2 = (du1 - du2) / 430000;
+        di4 = di2 - di3;
+        di6 = du1/510000;
+        di1 = di5 + di2 + di6;
+        i1 = i1 + di1;
+        i2 = i2 + di2;
+        i3 = i3 + di3;
+        i4 = i4 + di4;
+        i5 = i5 + di5;
+        i6 = i6 + di6;
+        u1 = u1 + du1;
+        u2 = u2 + du2;
+  
+        I(i) = i5;  
+    end  
+  
+    plot(t, I, 'LineWidth', 1.7, 'Color', colors(j,:));  
+end  
+  
+plot(t, 15*ones(size(t)), '--k', 'LineWidth', 1.5);
+  
+xlabel('$t(s)$','Interpreter','latex');  
+ylabel('$I(A)$','Interpreter','latex');  
+title('Change of current with time at different turns', 'Interpreter','latex');  
+legend(arrayfun(@(x) sprintf('N = %d', N(x)), 1:length(N), 'UniformOutput', false), 'Location', 'best'); % 添加图例，包括参考线  
+hold off;  
+```
