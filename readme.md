@@ -61,7 +61,7 @@
 ### 4、升压电路
 
 <div align="center">
-    <img src="https://github.com/Gnitnaux/POWBRD/blob/master/%E5%8D%87%E5%8E%8B%E7%94%B5%E8%B7%AF.png?raw=true" alt="踢球电路" width="500">
+    <img src="https://github.com/Gnitnaux/POWBRD/blob/master/%E5%8D%87%E5%8E%8B%E7%94%B5%E8%B7%AF.png?raw=true" alt="升压电路" width="500">
 </div>
 
 - 升压电路是功率板的核心，主要基于BOOST电路的原理（[基本原理可参考该链接](https://zhuanlan.zhihu.com/p/633235266)），其核心芯片为UC3843（[芯片手册](https://atta.szlcsc.com/upload/public/pdf/source/20160416/1460799393893.pdf)）
@@ -105,7 +105,7 @@
 为进一步了解电磁铁放电时的工作状态，特建立以下电路模型来描述电磁铁放电时的响应。其中，电磁铁等效为电感模型，通过阻抗法进行测量，老电磁铁电感值为 $0.0175H$，万用表测量得其电阻为 $2.9\Omega$
 
 <div align="center">
-    <img src="https://github.com/Gnitnaux/POWBRD/blob/master/%E6%94%BE%E7%94%B5%E7%94%B5%E8%B7%AF%E6%A8%A1%E5%9E%8B.jpg?raw=true" alt="踢球电路" width="500">
+    <img src="https://github.com/Gnitnaux/POWBRD/blob/master/%E6%94%BE%E7%94%B5%E7%94%B5%E8%B7%AF%E6%A8%A1%E5%9E%8B.jpg?raw=true" alt="电路模型" width="500">
 </div>
 
 可用如下微分方程描述该电路模型：
@@ -116,6 +116,9 @@ $$
 	&i_2 = i_3 + i_4\\
     &u_2 = 5.1 \times 10^3\ i_3\\
     &i_4 = 10^{-8}\ \frac{du_2}{dt}\\
-    &
+    &u_1 = u_2+430\times 10^3\ i_4\\
+    &u_1 = 510\times10^3\ i_6\\
+    &i_1 = i_2 + i_5 + i_6\\
+    &u_1 = 3.7\ i_5 +
 \end{cases}
 $$
