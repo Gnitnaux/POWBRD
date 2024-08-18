@@ -187,3 +187,10 @@ title('Change of current with time at different turns', 'Interpreter','latex');
 legend(arrayfun(@(x) sprintf('N = %d', N(x)), 1:length(N), 'UniformOutput', false), 'Location', 'best'); % 添加图例，包括参考线  
 hold off;  
 ```
+
+运行结果如下：
+<div align="center">
+    <img src="https://github.com/Gnitnaux/POWBRD/blob/master/%E7%94%B5%E8%B7%AF%E6%A8%A1%E5%9E%8B%E5%8F%AF%E8%A7%86%E5%8C%96.png?raw=true" alt="电路可视化" width="500">
+</div>
+
+图中可见在不损坏保险丝的前提下，匝数在400匝以上均是安全的。考虑到部分物理量测量误差的影响，因此新一代电磁铁计划采用350匝。
