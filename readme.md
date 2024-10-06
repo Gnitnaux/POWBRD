@@ -10,7 +10,7 @@
 
 目前有老功率板与新功率板两版设计，两版原理相同，新功率板在老功率板基础上进行了一定优化和删减。两版原理图及PCB设计文件如下：
 
-- 老功率板原理图：[交大云盘](https://jbox.sjtu.edu.cn/l/y1gkPk)
+- 老功率板原理图：[交大云盘](https://jbox.sjtu.edu.cn/l/61secD)
 - 新功率板原理图：[交大云盘](https://jbox.sjtu.edu.cn/l/r1TiNZ)
 - 老功率板PCB设计（Altium Designer）：[交大云盘](https://jbox.sjtu.edu.cn/l/D1rCPL)
 - 新功率板PCB设计（嘉立创）：[交大云盘](https://jbox.sjtu.edu.cn/l/51VMpd)
